@@ -9,13 +9,13 @@ class DasDennis:
         self.m = m
 
     def __get_first_level(self, h: int) -> List:
-        return [_ for _ in np.linspace(0,1,h+1)]
+        return [_ for _ in np.linspace(0, 1, h + 1)]
 
     def __get_generic_level(self, first_level, previous_level):
         next_level = []
         for ind0, i in enumerate(previous_level):
             for ind1, j in enumerate(i[1]):
-                values = [first_level[v] for v in range(len(first_level) - ind1 - ind0)]
+                values = [first_level[_] for _ in range(len(first_level) - ind1 - ind0)]
                 next_level.append([i[0] + [i[1][ind1]], values])
 
         return next_level
@@ -44,20 +44,36 @@ class DasDennis:
             for vector in weight_vectors:
                 output_string = ""
                 for value in vector:
-                    output_string += str(value)+ separator
+                    output_string += str(value) + separator
                 output_string = output_string[:-1]
                 output_string += "\n"
                 output_file.write(output_string)
 
-H = 15
-m = 3
+    def __factorial(self, n:int):
+        if (n == 0 or n == 1):
+            return 1
+        else: 
+            return n * self.__factorial(n-1)
 
-das_dennis = DasDennis(H,m)
+    def __binomial_coefficient(self, n, k):
+        return self.__factorial(n) / (self.__factorial(k) * self.__factorial(n - k))
 
-weight_vectors = das_dennis.get_weight_vectors()
+    def get_number_of_points(self):
+        return int(self.__binomial_coefficient(self.h + self.m - 1, self.m - 1))
 
-print("Number of points: " + str(len(weight_vectors)))
-for i in weight_vectors:
-    print(i)
 
-das_dennis.save_to_file("W"+str(m)+"D_" + str(len(weight_vectors)) + ".dat", weight_vectors)
+
+if __name__ == "__main__":
+    H = 12
+    m = 3
+
+    das_dennis_weight_generator = DasDennis(H, m)
+
+    weight_vectors = das_dennis_weight_generator.get_weight_vectors()
+
+    print("Number of vectors: " + str(len(weight_vectors)))
+    print("Number of vectors: " + str(das_dennis_weight_generator.get_number_of_points()))
+    for i in weight_vectors:
+        print(i)
+
+    das_dennis_weight_generator.save_to_file("W" + str(m) + "D_" + str(len(weight_vectors)) + ".dat", weight_vectors)
