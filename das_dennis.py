@@ -4,12 +4,31 @@ import numpy as np
 
 
 class DasDennis:
-    def __init__(self, h, m):
-        self.h = h
-        self.m = m
+    """Class implementing the Das-Dennis method to generate a set of uniformly-spaced weight vectors.
 
-    def __get_first_level(self, h: int) -> List:
-        return [_ for _ in np.linspace(0, 1, h + 1)]
+    The method is described in: Indraneel Das and J. E. Dennis. Normal-boundary intersection: a new method for generating the pareto surface in nonlinear multicriteria optimization problems. SIAM J. on Optimization, 8(3):631–657, March 1998. DOI: http://dx.doi.org/10.1137/S1052623496307510.
+
+    Attributes
+    ----------
+    number_of_partitions: int
+        number of divisions in each axis
+    dimension: int
+        dimension of the points (e.g., number of objectives)
+
+    Methods
+    -------
+    get_weight_vectors()
+
+    get_number_of_points()
+
+    """
+    
+    def __init__(self, number_of_partitions, dimension):
+        self.number_of_partitions = number_of_partitions
+        self.dimension = dimension
+
+    def __get_first_level(self, number_of_partitions: int) -> List:
+        return [_ for _ in np.linspace(0, 1, number_of_partitions + 1)]
 
     def __get_generic_level(self, first_level, previous_level):
         next_level = []
@@ -29,9 +48,9 @@ class DasDennis:
         return last_level
 
     def get_weight_vectors(self):
-        first_level = self.__get_first_level(self.h)
+        first_level = self.__get_first_level(self.number_of_partitions)
         previous_level = [[[], first_level]]
-        for i in range(1, m - 1):
+        for i in range(1, self.dimension - 1):
             next_level = self.__get_generic_level(first_level, previous_level)
             previous_level = next_level
 
@@ -59,21 +78,7 @@ class DasDennis:
         return self.__factorial(n) / (self.__factorial(k) * self.__factorial(n - k))
 
     def get_number_of_points(self):
-        return int(self.__binomial_coefficient(self.h + self.m - 1, self.m - 1))
+        return int(self.__binomial_coefficient(self.number_of_partitions + self.dimension - 1, self.dimension - 1))
 
 
 
-if __name__ == "__main__":
-    H = 12
-    m = 3
-
-    das_dennis_weight_generator = DasDennis(H, m)
-
-    weight_vectors = das_dennis_weight_generator.get_weight_vectors()
-
-    print("Number of vectors: " + str(len(weight_vectors)))
-    print("Number of vectors: " + str(das_dennis_weight_generator.get_number_of_points()))
-    for i in weight_vectors:
-        print(i)
-
-    das_dennis_weight_generator.save_to_file("W" + str(m) + "D_" + str(len(weight_vectors)) + ".dat", weight_vectors)
