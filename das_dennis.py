@@ -6,7 +6,9 @@ import numpy as np
 class DasDennis:
     """Class implementing the Das-Dennis method to generate a set of uniformly-spaced weight vectors.
 
-    The method is described in: Indraneel Das and J. E. Dennis. Normal-boundary intersection: a new method for generating the pareto surface in nonlinear multicriteria optimization problems. SIAM J. on Optimization, 8(3):631–657, March 1998. DOI: http://dx.doi.org/10.1137/S1052623496307510.
+    The method is described in: Indraneel Das and J. E. Dennis. Normal-boundary intersection:
+    a new method for generating the pareto surface in nonlinear multicriteria optimization problems. S
+    IAM J. on Optimization, 8(3):631–657, March 1998. DOI: http://dx.doi.org/10.1137/S1052623496307510.
 
     Attributes
     ----------

@@ -10,8 +10,8 @@ class DasDennisTestCases(unittest.TestCase):
 
     def test_should_constructor_set_the_valid_parameter(self):
         das_dennis = DasDennis(number_of_partitions=4, dimension=3)
-        self.assertEqual(4, das_dennis.number_of_partitions)
-        self.assertEqual(3, das_dennis.dimension)
+        self.assertEquals(4, das_dennis.number_of_partitions)
+        self.assertEquals(3, das_dennis.dimension)
 
     # Case 1: number of partitions = 12, dimension = 3
     def test_should_get_number_of_points_return_the_correct_value_case_1(self):
@@ -32,9 +32,9 @@ class DasDennisTestCases(unittest.TestCase):
         points = das_dennis.get_weight_vectors()
 
         self.assertEquals(91, len(points))
-        self.assertEqual([0.0, 0.0, 1.0], points[0])
-        self.assertEqual([1.0, 0.0, 0.0], points[90])
-        self.assertEqual([0.75, 0.25, 0.0], points[84])
+        self.assertEquals([0.0, 0.0, 1.0], points[0])
+        self.assertEquals([1.0, 0.0, 0.0], points[90])
+        self.assertEquals([0.75, 0.25, 0.0], points[84])
 
     # Case 2: number of partitions = 5, dimension = 3
     def test_should_get_weight_vectors_work_properly_case_2(self):
@@ -43,6 +43,6 @@ class DasDennisTestCases(unittest.TestCase):
         points = das_dennis.get_weight_vectors()
 
         self.assertEquals(21, len(points))
-        self.assertEqual([0.0, 0.0, 1.0], points[0])
-        self.assertEqual([0.8, 0.2, 0.0], points[19])
-        self.assertEqual([1.0, 0.0, 0.0], points[20])
+        self.assertEquals([0.0, 0.0, 1.0], points[0])
+        self.assertEquals([0.8, 0.2, 0.0], points[19])
+        self.assertEquals([1.0, 0.0, 0.0], points[20])
